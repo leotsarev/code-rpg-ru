@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: http://coderpg.github.io/sitemap.xml
