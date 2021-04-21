@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1 class="title is-1">
+  code.rpg.ru
+</h1>
+
+<div class="box">
+<h2 class="subtitle">Проект хранения исходных кодов программ для РИ</h2>
+<p>
+На данной странице собраны ссылки на исходный код программ, написанных к различным ролевым проектам. Все перечисленные программы можно безвозмездно использовать в своих проектах.
+Если у вас возникают вопросы по использованию программ или вы хотите поблагодарить авторов, просим писать непосредственно разработчикам. Их координаты обычно есть по ссылке на репозиторий (первый столбец таблицы).
+</p>
+
+<p>
+Если вы хотите добавить свою программу сюда, нашли ошибку, не можете связаться с разработчиками, <a href="support@joinrpg.ru">пишите нам по адресу support@joinrpg.ru</a>.
+<br>
+Мы будем рады добавить в этот список любую программу, которая имеет отношение к ролевым играм и доступна для некоммерческого использования.
+<br>
+Мы предпочитаем выкладывать программы с открытым исходным кодом, но это не является обязательным условием публикации программы. Если вы не знаете, какую лицензию выбрать для программы, то мы рекомендуем лицензию Apache 2.0 или MIT, т.к. эта лицензии разрешает делать с кодом практически что угодно. 
+</p>
+</div>
+
+<table class="table is-bordered is-striped is-fullwidth"> 
+  <tr>
+    <th>Ссылка на проект</th>
+    <th>Описание</th>
+    <th>Зависимости</th>
+    <th>Игра</th>
+    <th>Разработчики</th>
+    <th>Лицензия</th>
+  </tr>
+  {% for page in section.pages %}
+  <tr>
+    <td>
+      {% if page.extra.uri %}
+        <a href="{{ page.extra.uri | safe }}">{{ page.title }}</a>
+        {% if page.extra.git %}
+          <a href="{{ page.extra.git | safe }}">[git]</a>
+        {% endif %}
+      {% elif page.extra.git %}
+        <a href="{{ page.extra.git | safe }}">{{ page.title }}</a>
+        {% else %}
+        {{ page.title }}
+        {% if page.extra.broken_uri %}
+          <br> <a href="{{ page.extra.broken_uri | safe }}">битая ссылка</a>
+        {%else %}
+        <br> (ссылка&nbsp;отсутствует)
+        {% endif %}
+       
+      {% endif %}
+     
+    </td>
+    <td>{{ page.content | safe }}</td>
+    <td>{{page.extra.technology}}</td>
+    <td>
+      {% if page.extra.larp%}
+        {{page.extra.larp}}
+      {%else%}
+        - 
+      {% endif %}
+    </td>
+    <td>
+      {% if page.extra.developers %}
+        <ul>
+          {% for dev in page.extra.developers %}
+            <nobr> {{dev}} </nobr>
+          {% endfor %}
+        </ul>
+      {%endif%}
+    </td>
+    <td>
+      {% if page.extra.license == "MIT" %}
+        <a href="https://mit-license.org/">MIT</a>
+      {% elif page.extra.license == "Apache" %}
+      <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache</a>
+      {% else %}
+       Кастомная лицензия:
+       <br /> 
+         {{ page.extra.license }}
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock content %}
